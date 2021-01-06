@@ -6,23 +6,23 @@ def submit_fields():
     path = "movielist.xlsx"
     df1 = pd.read_excel(path)
     
-    sTitle = df1["Title"]
-    sDir = df1["Director"]
-    #sGenre = df1["Genre(s)"]
-    #sTheme = df1["Theme(s)"]
-    #sRDate = df1["Release"]
-    #sMPAA = df1["MPAA"]
-    #sCast = df1["Cast"]
-    #sRating = df1["Rating"]
-    #sComment = df1["Comments"]
+    s_title = df1["Title"]
+    s_dir = df1["Director"]
+    s_genre = df1["Genre(s)"]
+    s_theme = df1["Theme(s)"]
+    s_rdate = df1["Release"]
+    s_mpaa = df1["MPAA"]
+    s_cast = df1["Cast"]
+    s_rating = df1["Rating"]
+    s_comment = df1["Comments"]
     
     title = pd.Series(eTitle.get())
     director = pd.Series(eDirector.get())
 
-    sTitle = sTitle.append(title)
-    sDir = sDir.append(director)
+    s_title = s_title.append(title)
+    s_dir = s_dir.append(director)
 
-    df2 = pd.DataFrame({"Title":sTitle, "Director":sDir})
+    df2 = pd.DataFrame({"Title":s_title, "Director":s_dir})
     df2.to_excel(path, index=False)
 
     eTitle.delete(0, tkr.END)
