@@ -1,48 +1,43 @@
-import random, statistics
+#ATBS Ch 7: Regular Expressions
+import pyperclip, re
 
-def step_count(k):
-    step_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 5, 5]
-    i = k % 13
-    return step_list[i]
+phoneRegex = re.compile(r'''(
+    (\d{3}|\(\d{3}\))?  # area code
+    (\s|-|\.)?  # separator
+    (\d{3}) # first 3 digits
+    (\s|-|\.)?  # separator
+    (\d{4}) # last 4 digits
+    (\s*(ext|x|ext.)\s*(\d{2,5}))?  # extension
+)''', re.VERBOSE)
 
-def shuffle_deck(card_num):
-    deck = []
-    cards = list(range(card_num))
+emailRegex = re.compile(r'''(
+    [a-zA-Z0-9._%+-]+   # username
+    @
+    [a-zA-Z0-9.-]+  # domain name
+    (\.[a-zA-Z]+)    # dot-something
+)''', re.VERBOSE)
 
-    for k in range(card_num):
-        i = random.randint(0, len(cards)-1)
-        deck.append(cards.pop(i))
-    
-    return deck
+def find_clip_matches():
+    text = str(pyperclip.paste())
+    matches = []
 
-def kruskal(deck, start_pos):
-    pos = start_pos
-    step = step_count(deck[start_pos])
+    for groups in phoneRegex.findall(text):
+        pNum = '-'.join([groups[1], groups[3], groups[5]])
+        if groups[8] != '':
+            pNum += ' x' + groups[8]
+        matches.append(pNum)
 
-    while True:
-        if pos + step > len(deck) - 1:
-            break
-        else:
-            pos += step
-            step = step_count(deck[pos])
+    for groups in emailRegex.findall(text):
+        matches.append(groups[0])
 
-    return deck[pos]
+    return matches
 
-def main(card_num):
-    deck = shuffle_deck(card_num)
-    final_cards = []
-    num = 0
+def main():
+    matches = find_clip_matches()
+    if len(matches) > 0:
+        text = '\n'.join(matches)
+        print(text)
+    else:
+        print('No matches found')
 
-    for i in range(10):
-        final_cards.append(kruskal(deck, i))
-
-    num = final_cards.count(statistics.mode(final_cards))
-    print(final_cards)
-    print(num)
-    return num/10
-
-j = []
-for x in range(100):
-    j.append(main(104))
-
-print(statistics.mean(j))
+main()
