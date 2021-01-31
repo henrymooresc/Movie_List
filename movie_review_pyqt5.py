@@ -1,9 +1,14 @@
 import sys
 import pandas as pd
+# pylint: disable=fixme, no-name-in-module
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QLineEdit, QApplication, QMenu, QWidget, QComboBox, QDateEdit, QToolButton, QPushButton, QGridLayout)
 
 #https://doc.qt.io/qt-5/index.html
+
+# TODO: Change input to only Title, Release Year, Personal Rating, and Comment
+# TODO: Add imdb lookup based on Title and Release Year
+# https://www.imdb.com/interfaces/
 
 list_choices = {
     "genre": ["Action", "Adventure", "Comedy", "Documentary", "Drama", "Horror", "Musical", "Romantic", "Thriller"],
